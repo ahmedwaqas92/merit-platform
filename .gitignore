@@ -1,0 +1,39 @@
+.DS_Store
+.thumbs.db
+node_modules
+
+# Quasar core related directories
+.quasar
+frontend/merit-frontend/dist
+frontend/merit-frontend/quasar.config.*.temporary.compiled*
+
+# Cordova related directories and files
+frontend/merit-frontend/src-cordova/node_modules
+frontend/merit-frontend/src-cordova/platforms
+frontend/merit-frontend/src-cordova/plugins
+frontend/merit-frontend/src-cordova/www
+
+# Capacitor related directories and files
+frontend/merit-frontend/src-capacitor/www
+frontend/merit-frontend/src-capacitor/node_modules
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# local .env files
+.env.local*
+
+
+/backend/Include/
+/backend/Lib
+/backend/Scripts/
+/backend/pyvenv.cfg 
