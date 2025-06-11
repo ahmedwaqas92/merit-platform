@@ -35,5 +35,6 @@ yarn-error.log*
 
 /backend/Include/
 /backend/Lib
+/backend/Lib/*
 /backend/Scripts/
 /backend/pyvenv.cfg 
