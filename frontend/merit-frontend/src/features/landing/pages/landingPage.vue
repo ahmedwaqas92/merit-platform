@@ -7,7 +7,7 @@
       loop 
       playsinline
     >
-      <source src="../../../assets/videos/background-video.mp4" type="video/mp4">
+      <source src="../../../assets/videos/background-video.webm" type="video/mp4">
     </video>
 
     <!-- Header with logo and hamburger menu - Pass menu state -->
@@ -47,8 +47,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import LandingHeader from '../components/LandingHeader.vue'
-import LandingMenu from '../components/LandingMenu.vue'
+import LandingHeader from '../components/landingHeader.vue'
+import LandingMenu from '../components/landingMenu.vue'
 import { menuService } from '../services/landingServices.js'
 
 const isMenuOpen = ref(false)
