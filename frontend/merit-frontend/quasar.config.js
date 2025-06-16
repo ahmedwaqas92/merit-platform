@@ -72,7 +72,17 @@ export default defineConfig((/* ctx */) => {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
     devServer: {
       // https: true,
-      open: true // opens browser window automatically
+      host: '0.0.0.0',
+      open: true, // opens browser window automatically
+
+      proxy: {
+        // whenever your code does fetch('/api/…'), it’ll hit Flask on port 5000
+        '/api': {
+          target: 'http://localhost:5000',
+          changeOrigin: true,
+          secure: false       // if your Flask isn’t using HTTPS
+        }
+      }
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework
@@ -136,7 +146,25 @@ export default defineConfig((/* ctx */) => {
 
     // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
     pwa: {
-      workboxMode: 'GenerateSW' // 'GenerateSW' or 'InjectManifest'
+      workboxMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
+      manifest: {
+        name: 'Merit Platform',
+        short_name: 'Merit',
+        description: 'Merit Platform App',
+        display: 'standalone', // This removes Safari UI when added to home screen
+        orientation: 'portrait',
+        background_color: '#000000',
+        theme_color: '#000000',
+        start_url: '/',
+        scope: '/',
+        icons: [
+          {
+            src: 'icons/icon-128x128.png',
+            sizes: '128x128',
+            type: 'image/png'
+          }
+        ]
+      }
       // swFilename: 'sw.js',
       // manifestFilename: 'manifest.json',
       // extendManifestJson (json) {},
