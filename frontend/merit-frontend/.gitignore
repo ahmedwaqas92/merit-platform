@@ -4,7 +4,15 @@ node_modules
 
 # Quasar core related directories
 .quasar
-/dist
+
+# Ignore everything in dist
+frontend/merit-frontend/dist/*
+
+# Except the spa folder and its contents
+!frontend/merit-frontend/dist/spa/
+!frontend/merit-frontend/dist/spa/**
+
+
 /quasar.config.*.temporary.compiled*
 
 # Cordova related directories and files
