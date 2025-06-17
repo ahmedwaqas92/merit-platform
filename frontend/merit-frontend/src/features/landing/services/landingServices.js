@@ -1,3 +1,25 @@
+export const landingService = {
+  // Initialize viewport settings
+  initializeViewport() {
+    const viewport = document.querySelector('meta[name="viewport"]')
+    if (viewport) {
+      viewport.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no'
+    }
+  },
+
+  // Check if PWA
+  isPWA() {
+    return window.navigator.standalone === true || 
+           window.matchMedia('(display-mode: standalone)').matches
+  },
+
+  // Check if iOS
+  isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent)
+  }
+}
+
+
 export const menuService = {
   // Toggle menu open/close
   toggleMenu(currentState) {
@@ -25,11 +47,11 @@ export const menuService = {
   },
 
   // Handle menu item navigation
-  handleNavigation(item) {
-    if (item.type === 'route') {
-      return { type: 'route', url: item.url }
-    } else {
-      // Handle anchor link - smooth scroll to section
+  handleNavigation(item, callback) {
+    if (item.label === 'Merit' && callback) {
+      callback('show-merit')
+      return { type: 'section', section: 'merit' }
+    } else if (item.type === 'link') {
       const element = document.querySelector(item.url)
       if (element) {
         element.scrollIntoView({ 

@@ -6,11 +6,12 @@
       muted 
       loop 
       playsinline
+      preload="auto"
     >
-      <source src="../../../assets/videos/background-video.webm" type="video/mp4">
+      <source src="../../../assets/videos/background-video.webm" type="video/webm">
     </video>
 
-    <!-- Header with logo and hamburger menu - Pass menu state -->
+    <!-- Header with logo and hamburger menu -->
     <LandingHeader 
       :is-menu-open="isMenuOpen"
       @toggle-menu="toggleMenu" 
@@ -40,25 +41,75 @@
     <!-- Right slide panel -->
     <LandingMenu 
       :is-open="isMenuOpen" 
-      @close-menu="closeMenu" 
+      @close-menu="closeMenu"
+      @show-merit="showMeritSection"
+    />
+
+    <!-- Merit Page -->
+    <MeritPage 
+      :is-visible="isMeritVisible"
+      @close="closeMeritSection"
     />
   </q-page>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import LandingHeader from '../components/landingHeader.vue'
 import LandingMenu from '../components/landingMenu.vue'
-import { menuService } from '../services/landingServices.js'
+import MeritPage from '../../merit/pages/meritPage.vue'
+import { menuService, landingService } from '../services/landingServices.js'
+
+const router = useRouter()
+const route = useRoute()
 
 const isMenuOpen = ref(false)
 const showHero = ref(false)
+const isMeritVisible = ref(false)
 
+// Initialize landing page
 onMounted(() => {
+  landingService.initializeViewport()
+  
   setTimeout(() => {
     showHero.value = true
-  }, 500) // Start animation 500ms after component mounts
+  }, 500)
+  
+  // Show Merit section if route is /merit
+  // if (route.path === '/merit') {
+  //   setTimeout(() => {
+  //     isMeritVisible.value = true
+  //   }, 800)
+  // }
 })
+
+// Watch route changes
+watch(() => route.path, (newPath) => {
+  if (newPath === '/merit' && !isMeritVisible.value) {
+    // Only show if user navigated directly to /merit URL
+    showMeritSection()
+  } else if (newPath === '/' && isMeritVisible.value) {
+    // Only close if Merit was open and user navigated to home
+    closeMeritSection()
+  }
+})
+
+const showMeritSection = () => {
+  isMeritVisible.value = true
+  // Update route to /merit
+  if (route.path !== '/merit') {
+    router.push('/merit')
+  }
+}
+
+const closeMeritSection = () => {
+  isMeritVisible.value = false
+  // Return to home route
+  if (route.path !== '/') {
+    router.push('/')
+  }
+}
 
 const toggleMenu = () => {
   isMenuOpen.value = menuService.toggleMenu(isMenuOpen.value)
@@ -69,9 +120,8 @@ const closeMenu = () => {
 }
 
 const handleGetStarted = () => {
-  // Add your get started logic here
   console.log('Get Started clicked!')
-  // For example: router.push('/register') or scroll to a section
+  // Add your logic here
 }
 </script>
 

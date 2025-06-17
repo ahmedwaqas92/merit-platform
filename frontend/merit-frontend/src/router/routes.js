@@ -6,6 +6,10 @@ const routes = [
       { 
         path: '', 
         component: () => import('src/features/landing/pages/landingPage.vue') 
+      },
+      { 
+        path: 'merit', 
+        component: () => import('src/features/landing/pages/landingPage.vue') 
       }
     ]
   },

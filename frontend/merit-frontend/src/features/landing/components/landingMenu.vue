@@ -30,7 +30,7 @@
           >
             <a 
               :href="item.url" 
-              @click="handleMenuClick(item)"
+              @click="handleMenuClick(item, $event)"
               class="menu-link"
             >
               {{ item.label }}
@@ -52,13 +52,20 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['close-menu'])
+const emit = defineEmits(['close-menu', 'show-merit'])
 
 const menuItems = menuService.getMenuItems()
 
-const handleMenuClick = (item) => {
-  // Handle navigation
-  menuService.handleNavigation(item)
+const handleMenuClick = (item, event) => {
+  event.preventDefault()
+  
+  // Handle navigation with callback
+  menuService.handleNavigation(item, (action) => {
+    if (action === 'show-merit') {
+      emit('show-merit')
+    }
+  })
+  
   // Close menu
   emit('close-menu')
 }

@@ -1,1 +1,15 @@
 // app global css in SCSS form
+/* Global override for Merit close button cursor */
+.merit-page button.close-merit,
+.merit-page button.close-merit *,
+.merit-page button.close-merit .q-icon,
+.merit-page button.close-merit i {
+  cursor: pointer !important;
+}
+
+.merit-page button.close-merit:hover,
+.merit-page button.close-merit:hover *,
+.merit-page button.close-merit:hover .q-icon,
+.merit-page button.close-merit:hover i {
+  cursor: pointer !important;
+}
