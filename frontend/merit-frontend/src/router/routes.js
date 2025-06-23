@@ -14,6 +14,10 @@ const routes = [
       { 
         path: 'origins', 
         component: () => import('src/features/landing/pages/landingPage.vue') 
+      },
+      { 
+        path: 'faqs', 
+        component: () => import('src/features/landing/pages/landingPage.vue') // Changed this line
       }
     ]
   },

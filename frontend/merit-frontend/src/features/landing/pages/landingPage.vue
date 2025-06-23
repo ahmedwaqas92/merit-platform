@@ -55,6 +55,7 @@
       @close-menu="closeMenu"
       @show-merit="showMeritSection"
       @show-origins="showOriginsSection"
+      @show-faqs="showFaqsSection"
     />
 
     <!-- Merit Page -->
@@ -68,6 +69,11 @@
       :is-visible="isOriginsVisible"
       @close="closeOriginsSection"
     />
+
+    <FaqsPage 
+      :is-visible="isFaqsVisible"
+      @close="closeFaqsSection"
+    />
   </q-page>
 </template>
 
@@ -78,6 +84,7 @@ import LandingHeader from '../components/landingHeader.vue'
 import LandingMenu from '../components/landingMenu.vue'
 import MeritPage from '../../merit/pages/meritPage.vue'
 import OriginsPage from '../../origins/pages/originsPage.vue'
+import FaqsPage from '../../frequentlyaskedquestions/pages/faqsPage.vue'
 import { landingService, routeService, menuService } from '../services/landingServices.js'
 
 const router = useRouter()
@@ -88,6 +95,7 @@ const isMenuOpen = ref(false)
 const showHero = ref(false)
 const isMeritVisible = ref(false)
 const isOriginsVisible = ref(false)
+const isFaqsVisible = ref(false)
 
 
 // Initialize landing page
@@ -104,7 +112,10 @@ watch(() => route.path, (newPath) => {
     closeMeritSection,
     isOriginsVisible,
     showOriginsSection,
-    closeOriginsSection
+    closeOriginsSection,
+    isFaqsVisible,
+    showFaqsSection,
+    closeFaqsSection
   )
 })
 
@@ -123,6 +134,14 @@ const showOriginsSection = () => {
 
 const closeOriginsSection = () => {
   routeService.closeOriginsSection(isOriginsVisible, router, route)
+}
+
+const showFaqsSection = () => {
+  routeService.showFaqsSection(isFaqsVisible, router, route)
+}
+
+const closeFaqsSection = () => {
+  routeService.closeFaqsSection(isFaqsVisible, router, route)
 }
 
 // Menu methods

@@ -36,14 +36,26 @@ export const landingService = {
 
 export const routeService = {
   // Handle route changes and Merit section visibility
-  handleRouteChange(newPath, isMeritVisible, showMeritCallback, closeMeritCallback, isOriginsVisible, showOriginsCallback, closeOriginsCallback) {
+  handleRouteChange(newPath, 
+                    isMeritVisible, 
+                    showMeritCallback, 
+                    closeMeritCallback, 
+                    isOriginsVisible, 
+                    showOriginsCallback, 
+                    closeOriginsCallback,
+                    isFaqsVisible,
+                    showFaqsCallback,
+                    closeFaqsCallback) {
     if (newPath === '/merit' && !isMeritVisible.value) {
       showMeritCallback()
     } else if (newPath === '/origins' && !isOriginsVisible.value) {
       showOriginsCallback()
-    } else if (newPath === '/' && (isMeritVisible.value || isOriginsVisible.value)) {
+    } else if (newPath === '/faqs' && !isFaqsVisible.value) {
+      showFaqsCallback()
+    } else if (newPath === '/' && (isMeritVisible.value || isOriginsVisible.value || isFaqsVisible.value)) {
       closeMeritCallback()
       closeOriginsCallback()
+      closeFaqsCallback()
     }
   },
 
@@ -77,7 +89,21 @@ export const routeService = {
     if (route && route.path !== '/') {
       router.push('/')
     }
-  }
+  },
+
+  showFaqsSection(isFaqsVisible, router, route) {
+    isFaqsVisible.value = true
+    if (route && route.path !== '/faqs') {
+      router.push('/faqs')
+    }
+  },
+
+  closeFaqsSection(isFaqsVisible, router, route) {
+    isFaqsVisible.value = false
+    if (route && route.path !== '/') {
+      router.push('/')
+    }
+  },
 }
 
 
@@ -102,8 +128,8 @@ export const menuService = {
     return [
       { id: 1, label: 'Merit', url: '#merit', type: 'link' },
       { id: 2, label: 'Origins', url: '#origins', type: 'link' },
-      { id: 3, label: 'Value Plans', url: '#value-plans', type: 'link' },
-      { id: 4, label: 'Reach Out', url: '#reach-out', type: 'link' }
+      { id: 3, label: 'FAQs', url: '#faqs', type: 'link' },
+      { id: 4, label: 'Pricing', url: '#pricing', type: 'link' }
     ]
   },
 
@@ -115,6 +141,9 @@ export const menuService = {
     } else if (item.label === 'Origins' && callback) {
       callback('show-origins')
       return { type: 'section', section: 'origins' }
+    } else if (item.label === 'FAQs' && callback) {
+      callback('show-faqs') // Add this
+      return { type: 'section', section: 'faqs' }
     } else if (item.type === 'link') {
       const element = document.querySelector(item.url)
       if (element) {
