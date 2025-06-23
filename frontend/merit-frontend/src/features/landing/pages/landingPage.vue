@@ -6,7 +6,18 @@
       muted 
       loop 
       playsinline
-      preload="auto"
+      preload="metadata"
+      x-webkit-airplay="allow"
+      x-webkit-playsinline="true"
+      webkit-playsinline="true"
+      x5-playsinline="true"
+      x5-video-player-type="h5"
+      x5-video-player-fullscreen="true"
+      @loadstart="handleVideoLoadStart"
+      @canplay="handleVideoCanPlay"
+      @error="handleVideoError"
+      @click="handleVideoClick"
+      
     >
       <source src="../../../assets/videos/background-video.webm" type="video/webm">
     </video>
@@ -43,12 +54,19 @@
       :is-open="isMenuOpen" 
       @close-menu="closeMenu"
       @show-merit="showMeritSection"
+      @show-origins="showOriginsSection"
     />
 
     <!-- Merit Page -->
     <MeritPage 
       :is-visible="isMeritVisible"
       @close="closeMeritSection"
+    />
+
+    <!-- Origins Page -->
+    <OriginsPage
+      :is-visible="isOriginsVisible"
+      @close="closeOriginsSection"
     />
   </q-page>
 </template>
@@ -59,58 +77,55 @@ import { useRouter, useRoute } from 'vue-router'
 import LandingHeader from '../components/landingHeader.vue'
 import LandingMenu from '../components/landingMenu.vue'
 import MeritPage from '../../merit/pages/meritPage.vue'
-import { menuService, landingService } from '../services/landingServices.js'
+import OriginsPage from '../../origins/pages/originsPage.vue'
+import { landingService, routeService, menuService } from '../services/landingServices.js'
 
 const router = useRouter()
 const route = useRoute()
 
+// Reactive state
 const isMenuOpen = ref(false)
 const showHero = ref(false)
 const isMeritVisible = ref(false)
+const isOriginsVisible = ref(false)
+
 
 // Initialize landing page
 onMounted(() => {
-  landingService.initializeViewport()
-  
-  setTimeout(() => {
-    showHero.value = true
-  }, 500)
-  
-  // Show Merit section if route is /merit
-  // if (route.path === '/merit') {
-  //   setTimeout(() => {
-  //     isMeritVisible.value = true
-  //   }, 800)
-  // }
+  landingService.initializePage(showHero)
 })
 
 // Watch route changes
 watch(() => route.path, (newPath) => {
-  if (newPath === '/merit' && !isMeritVisible.value) {
-    // Only show if user navigated directly to /merit URL
-    showMeritSection()
-  } else if (newPath === '/' && isMeritVisible.value) {
-    // Only close if Merit was open and user navigated to home
-    closeMeritSection()
-  }
+  routeService.handleRouteChange(
+    newPath, 
+    isMeritVisible, 
+    showMeritSection, 
+    closeMeritSection,
+    isOriginsVisible,
+    showOriginsSection,
+    closeOriginsSection
+  )
 })
 
+// Route navigation methods
 const showMeritSection = () => {
-  isMeritVisible.value = true
-  // Update route to /merit
-  if (route.path !== '/merit') {
-    router.push('/merit')
-  }
+  routeService.showMeritSection(isMeritVisible, router, route)
 }
 
 const closeMeritSection = () => {
-  isMeritVisible.value = false
-  // Return to home route
-  if (route.path !== '/') {
-    router.push('/')
-  }
+  routeService.closeMeritSection(isMeritVisible, router, route)
 }
 
+const showOriginsSection = () => {
+  routeService.showOriginsSection(isOriginsVisible, router, route)
+}
+
+const closeOriginsSection = () => {
+  routeService.closeOriginsSection(isOriginsVisible, router, route)
+}
+
+// Menu methods
 const toggleMenu = () => {
   isMenuOpen.value = menuService.toggleMenu(isMenuOpen.value)
 }
@@ -119,9 +134,9 @@ const closeMenu = () => {
   isMenuOpen.value = menuService.closeMenu()
 }
 
+// Button handlers
 const handleGetStarted = () => {
-  console.log('Get Started clicked!')
-  // Add your logic here
+  landingService.handleGetStarted()
 }
 </script>
 

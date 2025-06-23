@@ -16,6 +16,67 @@ export const landingService = {
   // Check if iOS
   isIOS() {
     return /iPad|iPhone|iPod/.test(navigator.userAgent)
+  },
+
+  initializePage(showHero) {
+    this.initializeViewport()
+    
+    setTimeout(() => {
+      showHero.value = true
+    }, 500)
+  },
+
+  // Handle Get Started button click
+  handleGetStarted() {
+    console.log('Get Started clicked!')
+    // Add your get started logic here
+  }
+}
+
+
+export const routeService = {
+  // Handle route changes and Merit section visibility
+  handleRouteChange(newPath, isMeritVisible, showMeritCallback, closeMeritCallback, isOriginsVisible, showOriginsCallback, closeOriginsCallback) {
+    if (newPath === '/merit' && !isMeritVisible.value) {
+      showMeritCallback()
+    } else if (newPath === '/origins' && !isOriginsVisible.value) {
+      showOriginsCallback()
+    } else if (newPath === '/' && (isMeritVisible.value || isOriginsVisible.value)) {
+      closeMeritCallback()
+      closeOriginsCallback()
+    }
+  },
+
+  // Show Merit section
+  showMeritSection(isMeritVisible, router, route) {
+    isMeritVisible.value = true
+    if (route.path !== '/merit') {
+      router.push('/merit')
+    }
+  },
+
+  // Close Merit section
+  closeMeritSection(isMeritVisible, router, route) {
+    isMeritVisible.value = false
+    if (route.path !== '/') {
+      router.push('/')
+    }
+  },
+
+  // Show Origins section
+  showOriginsSection(isOriginsVisible, router, route) {
+    isOriginsVisible.value = true
+    if (route && route.path !== '/origins') {
+      router.push('/origins')
+    }
+  },
+
+  // Close Origins section
+  closeOriginsSection(isOriginsVisible, router, route) {
+    isOriginsVisible.value = false
+    if (route && route.path !== '/') {
+      router.push('/')
+    }
   }
 }
 
@@ -51,6 +112,9 @@ export const menuService = {
     if (item.label === 'Merit' && callback) {
       callback('show-merit')
       return { type: 'section', section: 'merit' }
+    } else if (item.label === 'Origins' && callback) {
+      callback('show-origins')
+      return { type: 'section', section: 'origins' }
     } else if (item.type === 'link') {
       const element = document.querySelector(item.url)
       if (element) {

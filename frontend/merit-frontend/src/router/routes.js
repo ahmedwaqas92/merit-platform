@@ -10,6 +10,10 @@ const routes = [
       { 
         path: 'merit', 
         component: () => import('src/features/landing/pages/landingPage.vue') 
+      },
+      { 
+        path: 'origins', 
+        component: () => import('src/features/landing/pages/landingPage.vue') 
       }
     ]
   },
