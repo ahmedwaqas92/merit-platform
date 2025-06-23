@@ -103,22 +103,16 @@ export const originsService = {
     this.navigationState.currentSection = 0
     this.navigationState.isScrolling = false
 
-    // Add event listeners
+    // Add event listeners (removed touch handlers)
     const wheelHandler = this.handleWheel.bind(this)
-    const touchStartHandler = this.handleTouchStart.bind(this)
-    const touchMoveHandler = this.handleTouchMove.bind(this)
     const keydownHandler = this.handleKeydown.bind(this)
 
     container.addEventListener('wheel', wheelHandler, { passive: false })
-    container.addEventListener('touchstart', touchStartHandler, { passive: true })
-    container.addEventListener('touchmove', touchMoveHandler, { passive: false })
     window.addEventListener('keydown', keydownHandler)
 
     return () => {
       // Cleanup function
       container.removeEventListener('wheel', wheelHandler)
-      container.removeEventListener('touchstart', touchStartHandler)
-      container.removeEventListener('touchmove', touchMoveHandler)
       window.removeEventListener('keydown', keydownHandler)
     }
   },
@@ -157,36 +151,7 @@ export const originsService = {
     }
   },
 
-  // Handle touch start for mobile
-  handleTouchStart(event) {
-    this.navigationState.touchStartY = event.touches[0].clientY
-  },
-
-  // Handle touch move for mobile swipe
-  handleTouchMove(event) {
-    if (this.navigationState.isScrolling) {
-      event.preventDefault()
-      return
-    }
-    
-    this.navigationState.touchEndY = event.touches[0].clientY
-    const touchDiff = this.navigationState.touchStartY - this.navigationState.touchEndY
-    
-    // Minimum swipe distance to trigger navigation
-    if (Math.abs(touchDiff) > 50) {
-      event.preventDefault()
-      
-      if (touchDiff > 0) {
-        // Swiped up (navigate down)
-        this.navigateToSection('down')
-      } else {
-        // Swiped down (navigate up)
-        this.navigateToSection('up')
-      }
-    }
-  },
-
-  // Handle keyboard navigation
+    // Handle keyboard navigation
   handleKeydown(event) {
     if (this.navigationState.isScrolling) return
     
