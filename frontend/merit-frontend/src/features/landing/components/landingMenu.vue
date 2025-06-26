@@ -52,7 +52,7 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['close-menu', 'show-merit', 'show-origins', 'show-faqs'])
+const emit = defineEmits(['close-menu', 'show-merit', 'show-origins', 'show-faqs', 'show-pricing'])
 
 const menuItems = menuService.getMenuItems()
 
@@ -67,6 +67,8 @@ const handleMenuClick = (item, event) => {
       emit('show-origins')
     } else if (item.label === 'FAQs') {
     emit('show-faqs') // Add this condition
+    } else if (item.label === 'Pricing') {
+    emit('show-pricing') // Add this condition
     }
   })
   

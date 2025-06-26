@@ -17,13 +17,33 @@ const routes = [
       },
       { 
         path: 'faqs', 
-        component: () => import('src/features/landing/pages/landingPage.vue') // Changed this line
+        component: () => import('src/features/landing/pages/landingPage.vue')
+      },
+      { 
+        path: 'pricing', 
+        component: () => import('src/features/landing/pages/landingPage.vue')
       }
     ]
   },
 
-  // Always leave this as last one,
-  // but you can also remove it
+   // Authentication routes
+  {
+    path: '/login',
+    component: () => import('src/features/loginRegister/pages/loginRegisterPage.vue')
+  },
+  {
+    path: '/register',
+    component: () => import('src/features/loginRegister/pages/loginRegisterPage.vue')
+  },
+
+  // Protected routes (add later)
+  // {
+  //   path: '/dashboard',
+  //   component: () => import('src/features/dashboard/pages/dashboardPage.vue'), // Create this later
+  //   meta: { requiresAuth: true }
+  // },
+
+
   {
     path: '/:catchAll(.*)*',
     component: () => import('src/features/error/pages/errorPage.vue')

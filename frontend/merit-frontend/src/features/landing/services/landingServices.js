@@ -27,9 +27,14 @@ export const landingService = {
   },
 
   // Handle Get Started button click
-  handleGetStarted() {
+  handleGetStarted(router) {
     console.log('Get Started clicked!')
-    // Add your get started logic here
+    if (router) {
+      router.push('/login')
+    } else {
+      // Fallback for direct navigation
+      window.location.href = '/login'
+    }
   }
 }
 
@@ -45,17 +50,23 @@ export const routeService = {
                     closeOriginsCallback,
                     isFaqsVisible,
                     showFaqsCallback,
-                    closeFaqsCallback) {
+                    closeFaqsCallback,
+                    isPricingVisible,
+                    showPricingCallback,
+                    closePricingCallback) {
     if (newPath === '/merit' && !isMeritVisible.value) {
       showMeritCallback()
     } else if (newPath === '/origins' && !isOriginsVisible.value) {
       showOriginsCallback()
     } else if (newPath === '/faqs' && !isFaqsVisible.value) {
       showFaqsCallback()
-    } else if (newPath === '/' && (isMeritVisible.value || isOriginsVisible.value || isFaqsVisible.value)) {
+    } else if (newPath === '/pricing' && !isPricingVisible.value) {
+      showPricingCallback() 
+    } else if (newPath === '/' && (isMeritVisible.value || isOriginsVisible.value || isFaqsVisible.value || isPricingVisible.value)) {
       closeMeritCallback()
       closeOriginsCallback()
       closeFaqsCallback()
+      closePricingCallback()
     }
   },
 
@@ -104,6 +115,20 @@ export const routeService = {
       router.push('/')
     }
   },
+
+  showPricingSection(isPricingVisible, router, route) {
+    isPricingVisible.value = true
+    if (route && route.path !== '/pricing') {
+      router.push('/pricing')
+    }
+  },
+
+  closePricingSection(isPricingVisible, router, route) {
+    isPricingVisible.value = false
+    if (route && route.path !== '/') {
+      router.push('/')
+    }
+  },
 }
 
 
@@ -144,6 +169,9 @@ export const menuService = {
     } else if (item.label === 'FAQs' && callback) {
       callback('show-faqs') // Add this
       return { type: 'section', section: 'faqs' }
+    } else if (item.label === 'Pricing' && callback) {
+      callback('show-pricing') // Add this
+      return { type: 'section', section: 'pricings' }
     } else if (item.type === 'link') {
       const element = document.querySelector(item.url)
       if (element) {
