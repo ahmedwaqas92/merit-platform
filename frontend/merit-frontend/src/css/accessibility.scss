@@ -1,0 +1,54 @@
+/* Support for both old and new high contrast standards */
+@media (prefers-contrast: high), (-ms-high-contrast: active) {
+  /* High contrast styles */
+  .auth-form-container {
+    border: 2px solid !important;
+    background: Canvas !important;
+    color: CanvasText !important;
+  }
+  
+  .form-input {
+    border: 1px solid ButtonText !important;
+    background: Field !important;
+    color: FieldText !important;
+  }
+  
+  .submit-button {
+    background: ButtonFace !important;
+    color: ButtonText !important;
+    border: 1px solid ButtonText !important;
+  }
+  
+  .social-button {
+    background: ButtonFace !important;
+    color: ButtonText !important;
+    border: 1px solid ButtonText !important;
+  }
+}
+
+/* New forced colors standard */
+@media (forced-colors: active) {
+  .auth-form-container {
+    border: 2px solid;
+    background: Canvas;
+    color: CanvasText;
+  }
+  
+  .form-input {
+    border: 1px solid ButtonText;
+    background: Field;
+    color: FieldText;
+  }
+  
+  .submit-button {
+    background: ButtonFace;
+    color: ButtonText;
+    border: 1px solid ButtonText;
+  }
+  
+  .social-button {
+    background: ButtonFace;
+    color: ButtonText;
+    border: 1px solid ButtonText;
+  }
+}

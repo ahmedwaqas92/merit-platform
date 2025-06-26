@@ -4,7 +4,6 @@ import { useRouter, useRoute } from 'vue-router'
 export const authService = {
   // Initialize authentication services
   initializeAuth() {
-    console.log('Initializing authentication services...')
     // Initialize Google OAuth
     this.initializeGoogle()
     // Initialize LinkedIn OAuth
@@ -26,14 +25,12 @@ export const authService = {
   // Initialize LinkedIn OAuth
   initializeLinkedIn() {
     // Load LinkedIn OAuth script if needed
-    console.log('LinkedIn OAuth initialized')
   },
 
   // Google authentication methods
   async loginWithGoogle() {
     try {
       // Simulate Google OAuth flow
-      console.log('Initiating Google login...')
       
       // In real implementation, use Google OAuth
       return new Promise((resolve) => {
@@ -59,7 +56,6 @@ export const authService = {
 
   async registerWithGoogle() {
     try {
-      console.log('Initiating Google registration...')
       
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -84,7 +80,6 @@ export const authService = {
   // LinkedIn authentication methods
   async loginWithLinkedIn() {
     try {
-      console.log('Initiating LinkedIn login...')
       
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -108,7 +103,6 @@ export const authService = {
 
   async registerWithLinkedIn() {
     try {
-      console.log('Initiating LinkedIn registration...')
       
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -133,7 +127,6 @@ export const authService = {
   // Email authentication methods
   async loginWithEmail(loginData) {
     try {
-      console.log('Logging in with email:', loginData.email)
       
       // Validate email format
       if (!this.validateEmail(loginData.email)) {
@@ -169,7 +162,6 @@ export const authService = {
 
   async registerWithEmail(registerData) {
     try {
-      console.log('Registering with email:', registerData.email)
       
       // Validate form data
       const validation = this.validateRegistrationData(registerData)
@@ -333,7 +325,6 @@ export const loginFormService = {
     isLoading.value = true
     try {
       const result = await authService.loginWithGoogle()
-      console.log('Google login result:', result)
       return result
     } catch (error) {
       console.error('Google login error:', error)
@@ -348,7 +339,6 @@ export const loginFormService = {
     isLoading.value = true
     try {
       const result = await authService.loginWithLinkedIn()
-      console.log('LinkedIn login result:', result)
       return result
     } catch (error) {
       console.error('LinkedIn login error:', error)
@@ -363,7 +353,6 @@ export const loginFormService = {
     isLoading.value = true
     try {
       const result = await authService.loginWithEmail(loginData.value)
-      console.log('Email login result:', result)
       return result
     } catch (error) {
       console.error('Email login error:', error)
@@ -375,7 +364,6 @@ export const loginFormService = {
 
   // Handle forgot password
   handleForgotPassword() {
-    console.log('Forgot password clicked')
     // Handle forgot password logic here
   }
 }
@@ -436,7 +424,7 @@ export const registerFormService = {
     isLoading.value = true
     try {
       const result = await authService.registerWithGoogle()
-      console.log('Google register result:', result)
+
       return result
     } catch (error) {
       console.error('Google register error:', error)
@@ -451,7 +439,6 @@ export const registerFormService = {
     isLoading.value = true
     try {
       const result = await authService.registerWithLinkedIn()
-      console.log('LinkedIn register result:', result)
       return result
     } catch (error) {
       console.error('LinkedIn register error:', error)
@@ -468,7 +455,6 @@ export const registerFormService = {
     isLoading.value = true
     try {
       const result = await authService.registerWithEmail(registerData.value)
-      console.log('Email register result:', result)
       return result
     } catch (error) {
       console.error('Email register error:', error)
@@ -524,14 +510,12 @@ export const pageService = {
 
   // Handle login success
   handleLoginSuccess(userData, router) {
-    console.log('Login successful:', userData)
     // Handle successful login - redirect to dashboard/home
     router.push('/dashboard') // or wherever you want to redirect
   },
 
   // Handle register success
   handleRegisterSuccess(userData, router) {
-    console.log('Registration successful:', userData)
     // Handle successful registration
     router.push('/dashboard') // or wherever you want to redirect
   }
